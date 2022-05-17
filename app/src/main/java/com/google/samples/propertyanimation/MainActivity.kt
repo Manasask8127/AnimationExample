@@ -73,13 +73,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun rotater() {
-        val animator=ObjectAnimator.ofFloat(star,View.ROTATION,-360f,0f)
-        animator.duration=1000
-
-
-        //to avoid disruptive flowin the UI for the users
-        animator.addListener(object : AnimatorListenerAdapter() {
+    private fun ObjectAnimator.disableAnimation(view: View){
+        addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator?) {
                 rotateButton.isEnabled=false
             }
@@ -88,10 +83,25 @@ class MainActivity : AppCompatActivity() {
                 rotateButton.isEnabled=true
             }
         })
+    }
+
+    private fun rotater() {
+        val animator=ObjectAnimator.ofFloat(star,View.ROTATION,-360f,0f)
+        animator.duration=1000
+        //to avoid disruptive flowin the UI for the users
+       animator.disableAnimation(rotateButton)
         animator.start()
     }
 
     private fun translater() {
+        val animator=ObjectAnimator.ofFloat(star,View.TRANSLATION_X,200f)
+        //translate happening only once
+        animator.duration=1000
+        animator.repeatCount=1
+        animator.repeatMode=ObjectAnimator.REVERSE
+        //to avaoid disruptive flowing UI
+        animator.disableAnimation(translateButton)
+        animator.start()
     }
 
     private fun scaler() {
