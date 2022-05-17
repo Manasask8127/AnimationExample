@@ -20,6 +20,8 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.annotation.SuppressLint
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -129,7 +131,16 @@ class MainActivity : AppCompatActivity() {
         animator.start()
     }
 
+    @SuppressLint("ObjectAnimatorBinding")
     private fun colorizer() {
+        var animator = ObjectAnimator.ofArgb(star.parent,
+            "backgroundColor", Color.BLACK, Color.RED)
+        animator.setDuration(500)
+        animator.repeatCount = 1
+        animator.repeatMode = ObjectAnimator.REVERSE
+        animator.disableAnimation(colorizeButton)
+        animator.start()
+
     }
 
     private fun shower() {
